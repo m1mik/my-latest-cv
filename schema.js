@@ -11,6 +11,7 @@ const typeDefs = gql`
   type Query {
     getMovies: [Movie]
     getMovie(id: ID!): Movie
+    health: String
   }
   type Mutation {
     addMovie(name: String!, producer: String!, rating: Float!): Movie
@@ -27,6 +28,9 @@ const resolvers = {
     },
     getMovie: (parent, args) => {
       return Movie.findById(args.id);
+    },
+    health: () => {
+      return "i'm alive";
     },
   },
   Mutation: {

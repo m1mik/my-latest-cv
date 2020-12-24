@@ -22,6 +22,9 @@ const server = new ApolloServer({
 const app = express();
 app.use(bodyParser.json());
 app.use("*", cors());
+app.get("/health", (req, res) => {
+  return res.status(200).json({ message: "i'm alive" });
+});
 server.applyMiddleware({ app });
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
