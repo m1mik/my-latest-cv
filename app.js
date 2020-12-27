@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const schema = require("./schema");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 const { ApolloServer } = require("apollo-server-express");
 require("dotenv").config();
 const url = `mongodb+srv://cv-user:${process.env.password}@cv-gen-cluster.v38xk.mongodb.net/cv-db?retryWrites=true&w=majority`;
@@ -22,6 +23,7 @@ const server = new ApolloServer({
 const app = express();
 app.use(bodyParser.json());
 app.use("*", cors());
+app.use(express.static(path.join(__dirname, "./client/build")));
 app.get("/health", (req, res) => {
   return res.status(200).json({ message: "i'm alive" });
 });
