@@ -23,7 +23,7 @@ const server = new ApolloServer({
 const app = express();
 app.use(bodyParser.json());
 app.use("*", cors());
-app.use(express.static(path.join(__dirname, "./client/static")));
+app.use(express.static(path.join(__dirname, "./client/build")));
 app.get("/", (req, res) => {
   return res.sendfile(path.join(__dirname, "./client/build", "index.html"));
 });
