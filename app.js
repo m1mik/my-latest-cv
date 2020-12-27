@@ -6,6 +6,8 @@ const cors = require("cors");
 const path = require("path");
 const { ApolloServer } = require("apollo-server-express");
 require("dotenv").config();
+
+const PORT = process.env.PORT || 8080;
 const url = `mongodb+srv://cv-user:${process.env.db_password}@cv-gen-cluster.v38xk.mongodb.net/cv-db?retryWrites=true&w=majority`;
 const connect = mongoose.connect(url, { useNewUrlParser: true });
 connect.then(
@@ -16,6 +18,7 @@ connect.then(
     console.log(err);
   }
 );
+
 const server = new ApolloServer({
   typeDefs: schema.typeDefs,
   resolvers: schema.resolvers,
@@ -31,6 +34,6 @@ app.get("/health", (req, res) => {
   return res.status(200).json({ message: "i'm alive" });
 });
 server.applyMiddleware({ app });
-app.listen({ port: process.env.PORT || 5000 }, () =>
+app.listen(PORT, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
 );
