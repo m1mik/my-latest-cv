@@ -6,7 +6,7 @@ const cors = require("cors");
 const path = require("path");
 const { ApolloServer } = require("apollo-server-express");
 require("dotenv").config();
-const url = `mongodb+srv://cv-user:${process.env.password}@cv-gen-cluster.v38xk.mongodb.net/cv-db?retryWrites=true&w=majority`;
+const url = `mongodb+srv://cv-user:${process.env.db_password}@cv-gen-cluster.v38xk.mongodb.net/cv-db?retryWrites=true&w=majority`;
 const connect = mongoose.connect(url, { useNewUrlParser: true });
 connect.then(
   (db) => {
