@@ -1,6 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import nataka from "../public/nataka.png";
 
 function App(): any {
   return (
@@ -8,7 +9,8 @@ function App(): any {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          <span>Привет натака )</span>
+          <img style={{ borderRadius: "50%" }} src={nataka} alt="Nataka" />
         </p>
         <a
           className="App-link"
