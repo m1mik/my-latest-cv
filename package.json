@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "connectgraphs": "npx apollo service:push --graph=cv-graph-oya16m --key=service:cv-graph-oya16m:j-m42euf_J7XUrSfOfwjpg --variant=current",
-    "start": "cd ./client && npm i && rm -rf build && npm run build && cd ../ && npm i && nodemon app"
+    "start": "npm i && nodemon app",
+    "heroku-postbuild": "cd ./client && npm i && rm -rf build && npm run build"
   },
   "keywords": [],
   "author": "",
