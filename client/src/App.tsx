@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import nataka from "../public/nataka.png";
+import nataka from "./assets/nataka.png";
 
 function App(): any {
   return (
