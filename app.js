@@ -26,9 +26,9 @@ const server = new ApolloServer({
 const app = express();
 app.use(bodyParser.json());
 app.use("*", cors());
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "../client/build")));
 app.get("*", (req, res) => {
-  return res.sendFile(path.join(__dirname, "client/public", "index.html"));
+  return res.sendFile(path.join(__dirname, "../client/public", "index.html"));
 });
 app.get("/health", (req, res) => {
   return res.status(200).json({ message: "i'm alive" });
