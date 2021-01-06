@@ -1,25 +1,24 @@
-import React from "react";
+import * as React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import nataka from "./assets/nataka.png";
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
+import TestDoc from "./TestDoc";
+import UploadImage from './UploadImage';
 
-function App(): any {
+const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <span>Привет натака )</span>
-          <img style={{ borderRadius: "50%" }} src={nataka} alt="Nataka" />
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <PDFViewer style={{width: "900px", height: "450px"}}>
+          <TestDoc />
+        </PDFViewer>
+        <div>
+          <PDFDownloadLink document={<TestDoc />} fileName="somename.pdf">
+            {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+          </PDFDownloadLink>
+        </div>
+        <UploadImage />
       </header>
     </div>
   );
