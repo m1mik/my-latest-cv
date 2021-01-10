@@ -4,8 +4,9 @@ const multer = require("multer");
 const upload = multer({ dest: __dirname + "/uploads/images" });
 
 router.post("/upload-avatar", upload.single("photo"), (req, res) => {
-  if (req.file) res.json(req.file);
-  res.status(400).json({
+  console.log(req.file);
+  if (req.file) return res.json(req.file);
+  return res.status(400).json({
     message: "Something went wrong on file save.",
   });
 });
