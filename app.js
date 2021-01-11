@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const userRouter = require("./modules/user/routes");
+const fileUpload = require("express-fileupload");
 const { ApolloServer } = require("apollo-server-express");
 require("dotenv").config();
 
@@ -29,6 +30,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use("*", cors());
 app.use(express.static(path.join(__dirname, "./client/build")));
+app.use(fileUpload());
 app.use("/user", userRouter);
 app.get("*", (req, res) => {
   return res.sendFile(path.join(__dirname, "./client/public", "index.html"));
