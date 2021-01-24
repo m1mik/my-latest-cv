@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const schema = require("./schema");
+const movieSchema = require("./schemas/movies");
+const projectSchema = require("./schemas/project");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
@@ -21,8 +22,8 @@ connect.then(
 );
 
 const server = new ApolloServer({
-  typeDefs: [schema.typeDefs],
-  resolvers: [schema.resolvers],
+  typeDefs: [movieSchema.typeDefs, projectSchema.typeDefs],
+  resolvers: { ...movieSchema.resolvers, ...projectSchema.resolvers }, // TODO: resolve issue: how to combine resolvers
 });
 
 const app = express();
