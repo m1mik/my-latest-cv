@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { updaloadAvatar } from "../../services/user";
 import CircularProgress from "@material-ui/core/CircularProgress";
 

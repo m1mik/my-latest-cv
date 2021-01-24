@@ -2,12 +2,10 @@ import axios from "axios";
 
 const baseUrl = "http://localhost:8080";
 
-export const updaloadAvatar = (callback: any) => {
-  return (event: any) => {
+export const updaloadAvatar = (callback: any) => (event: any) => {
     let data = new FormData();
-    for (let index = 0; index < event.target.files; index++) {
-      data.append("photo", event.target.files[index]);
-    }
+    const file = event.target.files[0];
+    data.append("file", file)
 
     const options = {
       onUploadProgress: (progressEvent: any) => {
@@ -20,8 +18,5 @@ export const updaloadAvatar = (callback: any) => {
 
     // call setState for percent change
 
-    axios
-      .post(`${baseUrl}/user/upload-avatar`, data, options)
-      .then(() => callback(100));
-  };
+    axios.post(`${baseUrl}/user/upload-avatar`, data, options).then(() => callback(100))
 };
