@@ -2,7 +2,8 @@ const { gql } = require("apollo-server-express");
 const { Movies } = require("../models/movies");
 const Project = require("../models/project");
 
-const typeDefs = gql`
+// const typeDefs = gql`
+const typeDefs = `
   type Project {
     id: ID!
     name: String!

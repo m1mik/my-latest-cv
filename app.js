@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const movieSchema = require("./schemas/movies");
-const projectSchema = require("./schemas/project");
+// const movieSchema = require("./schemas/movies");
+// const projectSchema = require("./schemas/project");
+const combinedTypes = require("./schemas/gqlTypes");
+const combinedResolvers = require("./schemas/gqlResolvers");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
@@ -10,7 +12,7 @@ const fileUpload = require("express-fileupload");
 const { ApolloServer } = require("apollo-server-express");
 require("dotenv").config();
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 const url = `mongodb+srv://cv-user:${process.env.db_password}@cv-gen-cluster.v38xk.mongodb.net/cv-db?retryWrites=true&w=majority`;
 const connect = mongoose.connect(url, { useNewUrlParser: true });
 connect.then(
@@ -23,8 +25,8 @@ connect.then(
 );
 
 const server = new ApolloServer({
-  typeDefs: [movieSchema.typeDefs, projectSchema.typeDefs],
-  resolvers: { ...movieSchema.resolvers, ...projectSchema.resolvers }, // TODO: resolve issue: how to combine resolvers
+  typeDefs: combinedTypes,
+  resolvers: combinedResolvers, // TODO: resolve issue: how to combine resolvers
 });
 
 const app = express();
