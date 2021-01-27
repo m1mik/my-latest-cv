@@ -1,7 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-// const movieSchema = require("./schemas/movies");
-// const projectSchema = require("./schemas/project");
 const combinedTypes = require("./schemas/gqlTypes");
 const combinedResolvers = require("./schemas/gqlResolvers");
 const bodyParser = require("body-parser");

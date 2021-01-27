@@ -1,6 +1,5 @@
 import React from "react";
-import { updaloadAvatar } from "../../services/user";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { updaloadAvatar } from "../../../../services/user";
 
 const UploadImage: React.FC<{}> = () => {
   const [percentageProgress, setPercentageProgress] = React.useState(0);
@@ -13,7 +12,6 @@ const UploadImage: React.FC<{}> = () => {
         name="photo"
         onChange={updaloadAvatar(setPercentageProgress)}
       />
-      <CircularProgress value={percentageProgress} />
     </div>
   );
 };
