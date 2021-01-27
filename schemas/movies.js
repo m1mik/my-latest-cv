@@ -35,7 +35,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addMovie: (parent, args) => {
+    addMovie: async (parent, args) => {
       console.log("in endpoint");
       console.log(typeof Movie);
       let movie = new Movie({
@@ -43,7 +43,7 @@ const resolvers = {
         producer: args.producer,
         rating: args.rating,
       });
-      return movie.save();
+      return await movie.save();
     },
     updateMovie: (parent, args) => {
       if (!args.id) return;
