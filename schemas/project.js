@@ -30,7 +30,7 @@ const typeDefs = `
 const resolvers = {
   Query: {
     getProjects: async (parent, args) => {
-      return await Movies.find({});
+      return await Project.find({});
     },
   },
   Mutation: {
