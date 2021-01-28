@@ -1,5 +1,18 @@
 const express = require("express");
 const router = express.Router();
+const { validate } = require("../../../helpers");
+const { body } = require("express-validator");
+const UserControllers = require("../controllers");
+
+router.post(
+  "/signup",
+  body(["name", "password"]).exists().isString(),
+  body("email").exists().isEmail(),
+  validate,
+  UserControllers.signup
+);
+
+router.get("/whoami", UserControllers.verifyUser, UserControllers.whoami);
 
 router.post("/upload-avatar", (req, res) => {
   if (!req.files) return res.json({ fail: true });

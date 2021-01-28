@@ -24,7 +24,6 @@ const typeDefs = `
 const resolvers = {
   Query: {
     getMovies: (parent, args) => {
-      console.log(parent);
       return Movie.find({});
     },
     getMovie: (parent, args) => {
@@ -36,8 +35,6 @@ const resolvers = {
   },
   Mutation: {
     addMovie: async (parent, args) => {
-      console.log("in endpoint");
-      console.log(typeof Movie);
       let movie = new Movie({
         name: args.name,
         producer: args.producer,
@@ -47,7 +44,6 @@ const resolvers = {
     },
     updateMovie: (parent, args) => {
       if (!args.id) return;
-      console.log("args in update", args);
       return Movie.findOneAndUpdate(
         {
           _id: args.id,
