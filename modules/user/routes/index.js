@@ -14,6 +14,14 @@ router.post(
 
 router.get("/whoami", UserControllers.verifyUser, UserControllers.whoami);
 
+// get new token
+router.post(
+  "/login",
+  body("password").exists().isString(),
+  body("email").exists().isEmail(),
+  UserControllers.login
+);
+
 router.post("/upload-avatar", (req, res) => {
   if (!req.files) return res.json({ fail: true });
 

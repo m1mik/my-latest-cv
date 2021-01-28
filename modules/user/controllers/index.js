@@ -7,7 +7,14 @@ const saltRounds = 10;
 const signup = async (req, res) => {
   const { name, password, email } = req.body;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  let user = new User({ name, password: hashedPassword, email });
+
+  const result = await User.countDocuments({ name, email }).exec();
+  if (result)
+    return res.status(403).json({
+      errorMessage: "There is user with such email or name in database.",
+    });
+
+  const user = new User({ name, password: hashedPassword, email });
   await user.save();
 
   const userToken = await new Promise((resolve, reject) => {
@@ -15,7 +22,7 @@ const signup = async (req, res) => {
       token ? resolve(token) : reject(err)
     );
   });
-  console.log("TOKEN: ", userToken);
+
   return res
     .cookie("jwt", userToken, {
       expires: new Date(Date.now() + 60 * 60 * 24 * 365),
@@ -49,8 +56,49 @@ const whoami = async (req, res) => {
   return res.json(req.user);
 };
 
+const login = async (req, res) => {
+  const { password, email } = req.body;
+
+  const user = await User.findOne({ email }).exec();
+  if (!user)
+    return res
+      .status(404)
+      .json({ errorMessage: `There is no user with ${email} email.` });
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid)
+    return res
+      .status(403)
+      .json({ errorMessage: `User exists but password is incorrect.` });
+
+  const userToken = await new Promise((resolve, reject) => {
+    jwt.sign(
+      {
+        user: {
+          email,
+          name: user.name,
+          password,
+        },
+      },
+      process.env.secret,
+      {},
+      (err, token) => (token ? resolve(token) : reject(err))
+    );
+  });
+
+  return res
+    .cookie("jwt", userToken, {
+      expires: new Date(Date.now() + 60 * 60 * 24 * 365),
+      secure: true,
+      httpOnly: true,
+    })
+    .status(200)
+    .json({ message: "Here is your new token, please welcome." });
+};
+
 module.exports = {
   signup,
   verifyUser,
   whoami,
+  login,
 };
