@@ -1,10 +1,15 @@
-import * as React from "react";
-import "./App.css";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import CV from "./components/CV";
 import Home from "./components/Home";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import "./App.css";
+import axios from "./services/axiosClient";
 
 const App: React.FC = () => {
+  useEffect(() => {
+    axios.get("/user/whoami");
+  }, []);
+
   return (
     <div className="App">
       <Router>
