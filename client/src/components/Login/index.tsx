@@ -4,16 +4,14 @@ import { useHistory } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
 import Send from "@material-ui/core/Icon";
 import { emailRegExp } from "../../services/constants";
-import { makeStyles } from "@material-ui/core/styles";
-import { styles } from "./styles";
+import { makeStyles } from "@material-ui/core";
 import axios from "../../services/axiosClient";
+import styles from "./styles";
 
 const useStyles = makeStyles(styles);
 
-const validateSignUpForm = (values: FormikValues) => {
+const validate = (values: FormikValues) => {
   const errors: any = {};
-
-  if (!values.name) errors.name = "Required!";
 
   if (!emailRegExp.test(values.email))
     errors.email = "Email format is invalid!";
@@ -24,21 +22,19 @@ const validateSignUpForm = (values: FormikValues) => {
   return errors;
 };
 
-const Signup = () => {
+const Login = () => {
   const history = useHistory();
   const classes = useStyles();
 
   const formik = useFormik({
     initialValues: {
-      name: "",
       email: "",
       password: "",
     },
-    validate: validateSignUpForm,
+    validate,
     onSubmit: (values) => {
-      const { name, email, password } = values;
-      axios.post("/user/signup", {
-        name,
+      const { email, password } = values;
+      axios.post("/user/login", {
         email,
         password,
       });
@@ -58,19 +54,8 @@ const Signup = () => {
         <div>
           <TextField
             required
-            name="name"
-            label="User name"
-            placeholder="user name"
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
-        </div>
-        <div>
-          <TextField
-            required
             name="email"
-            label="email"
+            label="Email"
             placeholder="email"
             onChange={formik.handleChange}
             error={formik.touched.email && Boolean(formik.errors.email)}
@@ -91,7 +76,7 @@ const Signup = () => {
         </div>
         <div>
           <Button variant="contained" type="submit" endIcon={<Send />}>
-            Register
+            Login
           </Button>
         </div>
       </form>
@@ -99,4 +84,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
