@@ -21,7 +21,7 @@ const user = (
 
   switch (type) {
     case FIND_OUT_WHO_AM_I: {
-      const { _id, name, email } = payload;
+      const { _id, name, email } = payload.user;
       return {
         ...state,
         id: _id,
