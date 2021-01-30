@@ -93,7 +93,7 @@ const login = async (req, res) => {
       httpOnly: true,
     })
     .status(200)
-    .json({ message: "Here is your new token, please welcome." });
+    .json({ message: "Here is your new token, please welcome.", user });
 };
 
 module.exports = {

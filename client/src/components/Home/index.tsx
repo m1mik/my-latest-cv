@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, AppBar, Toolbar, Button } from "@material-ui/core";
 import axios from "../../services/axiosClient";
 import styles from "./styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { whoami } from "../../store/actions/user";
+import { whoami, nullifyUser } from "../../store/actions/user";
 const useStyles = makeStyles(styles);
 
 const Home = () => {
-  const [cookie] = useCookies();
+  const [cookie, , removeCookie] = useCookies();
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
 
   useEffect(() => {
-    if (cookie.jwt)
+    if (cookie.jwt && !user.id)
       axios
         .get("/user/whoami", {
           headers: {
@@ -24,12 +24,26 @@ const Home = () => {
           },
         })
         .then((response) => dispatch(whoami(response.data)));
-  }, []);
+  }, [cookie, user, dispatch]);
+
+  const logout = useCallback(() => {
+    removeCookie("jwt");
+    dispatch(nullifyUser());
+  }, [removeCookie, dispatch]);
 
   return (
-    <div className="home">
+    <div className={classes.home}>
+      {user.id ? (
+        <AppBar position="static">
+          <Toolbar className={classes.homeToolbar}>
+            <Button variant="outlined" color="secondary" onClick={logout}>
+              Logout
+            </Button>
+          </Toolbar>
+        </AppBar>
+      ) : null}
       <div className={classes.center}>
-        {cookie.jwt ? (
+        {user.id ? (
           !user.id ? (
             <CircularProgress />
           ) : (

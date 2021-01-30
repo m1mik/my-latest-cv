@@ -1,9 +1,11 @@
 import React from "react";
 import { useFormik, FormikValues } from "formik";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
 import Send from "@material-ui/core/Icon";
 import { emailRegExp } from "../../services/constants";
+import { whoami } from "../../store/actions/user";
 import { makeStyles } from "@material-ui/core/styles";
 import { styles } from "./styles";
 import axios from "../../services/axiosClient";
@@ -27,6 +29,7 @@ const validateSignUpForm = (values: FormikValues) => {
 const Signup = () => {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -37,11 +40,16 @@ const Signup = () => {
     validate: validateSignUpForm,
     onSubmit: (values) => {
       const { name, email, password } = values;
-      axios.post("/user/signup", {
-        name,
-        email,
-        password,
-      });
+      axios
+        .post("/user/signup", {
+          name,
+          email,
+          password,
+        })
+        .then((response) => {
+          dispatch(whoami(response.data));
+          history.push("/");
+        });
     },
   });
 
@@ -50,7 +58,7 @@ const Signup = () => {
       <Button
         style={{ display: "inline-block", width: "100%" }}
         variant="contained"
-        onClick={() => history.goBack()}
+        onClick={() => history.push("/")}
       >
         Back home
       </Button>

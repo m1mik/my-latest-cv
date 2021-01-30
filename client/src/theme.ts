@@ -1,5 +1,4 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-export const themeProviderObject = createMuiTheme({});
 
 const theme = {
   classes: {
@@ -24,5 +23,16 @@ const theme = {
     },
   },
 };
+
+export const drawTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#4791db",
+    },
+    secondary: {
+      main: "#ffd180",
+    },
+  },
+});
 
 export default theme;

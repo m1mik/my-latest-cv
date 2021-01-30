@@ -1,10 +1,12 @@
 import React from "react";
 import { useFormik, FormikValues } from "formik";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
 import Send from "@material-ui/core/Icon";
 import { emailRegExp } from "../../services/constants";
 import { makeStyles } from "@material-ui/core";
+import { whoami } from "../../store/actions/user";
 import axios from "../../services/axiosClient";
 import styles from "./styles";
 
@@ -25,6 +27,7 @@ const validate = (values: FormikValues) => {
 const Login = () => {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -32,12 +35,17 @@ const Login = () => {
       password: "",
     },
     validate,
-    onSubmit: (values) => {
+    onSubmit: async (values: FormikValues) => {
       const { email, password } = values;
-      axios.post("/user/login", {
-        email,
-        password,
-      });
+      axios
+        .post("/user/login", {
+          email,
+          password,
+        })
+        .then((response) => {
+          dispatch(whoami(response.data));
+          history.push("/");
+        });
     },
   });
 
@@ -46,7 +54,7 @@ const Login = () => {
       <Button
         style={{ display: "inline-block", width: "100%" }}
         variant="contained"
-        onClick={() => history.goBack()}
+        onClick={() => history.push("/")}
       >
         Back home
       </Button>

@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { FIND_OUT_WHO_AM_I } from "../actions/actionTypes";
+import { FIND_OUT_WHO_AM_I, NULLIFY_USER } from "../actions/actionTypes";
 
 interface UserState {
   id: string;
@@ -29,6 +29,13 @@ const user = (
         email,
       };
     }
+    case NULLIFY_USER:
+      return {
+        ...state,
+        id: "",
+        name: "",
+        email: "",
+      };
     default:
       return state;
   }
