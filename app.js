@@ -28,18 +28,13 @@ connect.then(
 
 const server = new ApolloServer({
   typeDefs: combinedTypes,
-  resolvers: combinedResolvers, // TODO: resolve issue: how to combine resolvers
+  resolvers: combinedResolvers,
 });
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use("*", cors());
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000",
-//   })
-// );
 app.use(express.static(path.join(__dirname, "./client/build")));
 app.use(fileUpload());
 app.use("/user", userRouter);

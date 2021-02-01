@@ -1,6 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
-import CV from "./components/CV";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
@@ -15,8 +14,6 @@ const App: React.FC = () => (
       <CookiesProvider>
         <Router>
           <Switch>
-            <Route path="/todos" exact render={() => <div>todos</div>} />
-            <Route path="/cv" exact component={CV} />
             <Route path="/signup" exact component={Signup} />
             <Route path="/login" exact component={Login} />
             <Route path="/*" component={Home} />

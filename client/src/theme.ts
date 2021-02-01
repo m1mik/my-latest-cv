@@ -21,13 +21,18 @@ const theme = {
       display: "flex",
       flexDirection: "column",
     },
+    link: {
+      textDecoration: "none",
+    },
   },
 };
 
 export const drawTheme = createMuiTheme({
   palette: {
     primary: {
-      main: "#4791db",
+      main: "#1976d2",
+      light: "#4791db",
+      dark: "#115293",
     },
     secondary: {
       main: "#ffd180",

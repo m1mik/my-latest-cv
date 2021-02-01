@@ -1,5 +1,3 @@
-const { gql } = require("apollo-server-express");
-const { Movies } = require("../models/movies");
 const Project = require("../models/project");
 
 // const typeDefs = gql`

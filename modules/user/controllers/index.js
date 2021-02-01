@@ -8,7 +8,9 @@ const signup = async (req, res) => {
   const { name, password, email } = req.body;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-  const result = await User.countDocuments({ name, email }).exec();
+  const result = await User.countDocuments({
+    $or: [{ name }, { email }],
+  }).exec();
   if (result)
     return res.status(403).json({
       errorMessage: "There is user with such email or name in database.",

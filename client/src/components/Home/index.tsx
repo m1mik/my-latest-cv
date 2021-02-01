@@ -1,12 +1,22 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles, AppBar, Toolbar, Button } from "@material-ui/core";
+import {
+  makeStyles,
+  AppBar,
+  Toolbar,
+  Button,
+  Tabs,
+  Tab,
+} from "@material-ui/core";
 import axios from "../../services/axiosClient";
+import TabPanel from "./deps/TabPanel";
 import styles from "./styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { whoami, nullifyUser } from "../../store/actions/user";
+import HowToRegIcon from "@material-ui/icons/HowToReg";
+import InputIcon from "@material-ui/icons/Input";
+
 const useStyles = makeStyles(styles);
 
 const Home = () => {
@@ -14,6 +24,11 @@ const Home = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
+  const [tab, setTab] = useState<number>(1);
+
+  const changeTab = (event: React.ChangeEvent<any>, newValue: number) => {
+    setTab(newValue);
+  };
 
   useEffect(() => {
     if (cookie.jwt && !user.id)
@@ -34,52 +49,53 @@ const Home = () => {
   return (
     <div className={classes.home}>
       {user.id ? (
-        <AppBar position="static">
-          <Toolbar className={classes.homeToolbar}>
-            <Button variant="outlined" color="secondary" onClick={logout}>
-              Logout
-            </Button>
-          </Toolbar>
-        </AppBar>
-      ) : null}
-      <div className={classes.center}>
-        {user.id ? (
-          !user.id ? (
-            <CircularProgress />
-          ) : (
-            <>
-              <div>
-                <Link to="/todos">
-                  <div className="card">Todos</div>
-                </Link>
+        <>
+          <AppBar position="static">
+            <Toolbar className={classes.homeToolbar}>
+              <Button variant="outlined" color="secondary" onClick={logout}>
+                Logout
+              </Button>
+            </Toolbar>
+            <Tabs
+              classes={{ root: classes.homeTabsRoot }}
+              value={tab}
+              onChange={changeTab}
+            >
+              <Tab value={1} label="Todos" />
+              <Tab value={2} label="CV" />
+            </Tabs>
+          </AppBar>
+          <TabPanel value={tab} index={1}>
+            <div>Todos</div>
+          </TabPanel>
+          <TabPanel value={tab} index={2}>
+            <div>CV</div>
+          </TabPanel>
+        </>
+      ) : (
+        <div className={classes.center}>
+          <Link className={classes.link} to="/signup">
+            <div className={classes.card}>
+              <div className="card">
+                <div>Signup</div>
+                <div className={classes.iconCentralizer}>
+                  <HowToRegIcon className={classes.icon} />
+                </div>
               </div>
-              <div>
-                <Link to="/cv">
-                  <div className="card">CV</div>
-                </Link>
+            </div>
+          </Link>
+          <Link className={classes.link} to="/login">
+            <div className={classes.card}>
+              <div className="card">
+                <div>Login</div>
+                <div className={classes.iconCentralizer}>
+                  <InputIcon className={classes.icon} />
+                </div>
               </div>
-              <div>
-                <Link to="/">
-                  <div className="card">Nowhere</div>
-                </Link>
-              </div>
-            </>
-          )
-        ) : (
-          <>
-            <Link to="/signup">
-              <div className={classes.card}>
-                <div className="card">Signup</div>
-              </div>
-            </Link>
-            <Link to="/login">
-              <div className={classes.card}>
-                <div className="card">Login</div>
-              </div>
-            </Link>
-          </>
-        )}
-      </div>
+            </div>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

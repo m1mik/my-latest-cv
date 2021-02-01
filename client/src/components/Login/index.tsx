@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik, FormikValues } from "formik";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { TextField, Button } from "@material-ui/core";
+import CustomSnack from "../generalDeps/Snack";
 import Send from "@material-ui/core/Icon";
 import { emailRegExp } from "../../services/constants";
 import { makeStyles } from "@material-ui/core";
@@ -28,6 +29,10 @@ const Login = () => {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [isAlertOpen, setAlertState] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  const closeAlert = () => setAlertState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -45,6 +50,10 @@ const Login = () => {
         .then((response) => {
           dispatch(whoami(response.data));
           history.push("/");
+        })
+        .catch((error) => {
+          setErrorMsg(error.response.data.errorMessage);
+          setAlertState(true);
         });
     },
   });
@@ -88,6 +97,12 @@ const Login = () => {
           </Button>
         </div>
       </form>
+      <CustomSnack
+        isAlertOpen={isAlertOpen}
+        closeAlert={closeAlert}
+        message={errorMsg}
+        severity="error"
+      />
     </div>
   );
 };
