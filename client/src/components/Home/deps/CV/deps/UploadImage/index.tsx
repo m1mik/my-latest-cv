@@ -1,5 +1,5 @@
 import React from "react";
-import { updaloadAvatar } from "../../../../services/user";
+import { updaloadAvatar } from "../../../../../../services/user";
 
 const UploadImage: React.FC<{}> = () => {
   const [percentageProgress, setPercentageProgress] = React.useState(0);

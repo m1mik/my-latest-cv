@@ -1,6 +1,10 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const theme = {
+  colors: {
+    halfGrey: "#9c9c9c",
+    almostWhite: "#f5f5f5",
+  },
   classes: {
     card: {
       margin: "0 20px",

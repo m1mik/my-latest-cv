@@ -10,6 +10,9 @@ import {
   Tabs,
   Tab,
 } from "@material-ui/core";
+import clsx from "clsx";
+import CV from "./deps/CV";
+import Todos from "./deps/Todos";
 import axios from "../../services/axiosClient";
 import TabPanel from "./deps/TabPanel";
 import styles from "./styles";
@@ -25,10 +28,19 @@ const Home = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const [tab, setTab] = useState<number>(1);
+  const [swipe, setSwipe] = useState<boolean>(false);
+
+  const runSwipeDelay = () => setTimeout(() => setSwipe(true), 0);
 
   const changeTab = (event: React.ChangeEvent<any>, newValue: number) => {
     setTab(newValue);
+    setSwipe(false);
+    runSwipeDelay();
   };
+
+  useEffect(() => {
+    setSwipe(true);
+  }, []);
 
   useEffect(() => {
     if (cookie.jwt && !user.id)
@@ -49,7 +61,7 @@ const Home = () => {
   return (
     <div className={classes.home}>
       {user.id ? (
-        <>
+        <div className={classes.pageWrapper}>
           <AppBar position="static">
             <Toolbar className={classes.homeToolbar}>
               <Button variant="outlined" color="secondary" onClick={logout}>
@@ -65,13 +77,27 @@ const Home = () => {
               <Tab value={2} label="CV" />
             </Tabs>
           </AppBar>
-          <TabPanel value={tab} index={1}>
-            <div>Todos</div>
-          </TabPanel>
-          <TabPanel value={tab} index={2}>
-            <div>CV</div>
-          </TabPanel>
-        </>
+          <div className={classes.homePage}>
+            <TabPanel
+              className={clsx(classes.tabPanel, {
+                [classes.showTabPanel]: tab === 1 && swipe,
+              })}
+              value={tab}
+              index={1}
+            >
+              <Todos />
+            </TabPanel>
+            <TabPanel
+              className={clsx(classes.tabPanel, {
+                [classes.showTabPanel]: tab === 2 && swipe,
+              })}
+              value={tab}
+              index={2}
+            >
+              <CV />
+            </TabPanel>
+          </div>
+        </div>
       ) : (
         <div className={classes.center}>
           <Link className={classes.link} to="/signup">

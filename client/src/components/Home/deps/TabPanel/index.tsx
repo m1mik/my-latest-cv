@@ -3,10 +3,21 @@ import React from "react";
 interface TabPanelProps {
   value: number;
   index: number;
-  children: any;
+  children: React.ReactNode;
+  className?: any;
 }
 
-const TabPanel = ({ value, index, children }: TabPanelProps) =>
-  value === index ? <div>{children}</div> : null;
+const TabPanel = ({
+  value,
+  index,
+  children,
+  className,
+  ...rest
+}: TabPanelProps) =>
+  value === index ? (
+    <div className={className} {...rest}>
+      {children}
+    </div>
+  ) : null;
 
 export default TabPanel;

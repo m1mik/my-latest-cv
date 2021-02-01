@@ -7,9 +7,22 @@ const styles = (draw: Theme) =>
       display: "flex",
       justifyContent: "flex-end",
     },
+    pageWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      height: "100%",
+    },
     home: {
       height: "100%",
       width: "100%",
+    },
+    homePage: {
+      display: "flex",
+      justifyContent: "center",
+      height: "100%",
+      width: "750px",
+      backgroundColor: theme.colors.halfGrey,
     },
     center: {
       height: "100%",
@@ -41,6 +54,16 @@ const styles = (draw: Theme) =>
     },
     homeTabsRoot: {
       backgroundColor: draw.palette.primary.dark,
+    },
+    tabPanel: {
+      width: "100%",
+      backgroundColor: "#9c9c9c",
+      marginLeft: "100%",
+      transition: "margin-left 0.3s ease-out",
+      padding: draw.spacing(0, 2),
+    },
+    showTabPanel: {
+      marginLeft: "0",
     },
   });
 
