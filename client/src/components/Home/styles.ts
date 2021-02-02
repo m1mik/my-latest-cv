@@ -23,6 +23,9 @@ const styles = (draw: Theme) =>
       height: "100%",
       width: "750px",
       backgroundColor: theme.colors.halfGrey,
+      "@media (max-width: 900px)": {
+        width: "100%",
+      },
     },
     center: {
       height: "100%",

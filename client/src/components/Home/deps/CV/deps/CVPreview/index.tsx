@@ -11,7 +11,7 @@ const CVPreview = () => {
   }, []);
 
   return isPDFVisible ? (
-    <PDFViewer style={{ width: "745px", height: "450px" }}>
+    <PDFViewer style={{ width: "100%", height: "450px" }}>
       <TestDoc />
     </PDFViewer>
   ) : (

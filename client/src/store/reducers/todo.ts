@@ -1,6 +1,6 @@
 import { Todo } from "../types/todo";
 import { AnyAction } from "redux";
-import { GET_TODOS } from "../actions/actionTypes";
+import { SAVE_FETCHED_TODOS } from "../actions/actionTypes";
 
 interface TodoState {
   todos: Todo[];
@@ -17,7 +17,7 @@ const todo = (
   const { type, payload } = action;
 
   switch (type) {
-    case GET_TODOS: {
+    case SAVE_FETCHED_TODOS: {
       return {
         ...state,
         todos: payload,

@@ -1,4 +1,4 @@
-const Todo = require("../modules/todo/model");
+const Todo = require("../models");
 
 const typeDefs = `
   type Todo {
@@ -7,6 +7,7 @@ const typeDefs = `
     owner: ID!
     isDone: Boolean
     description: String
+    created_at: String!
   }
   type Query {
     getTodos(ownerId: ID!): [Todo]
@@ -21,8 +22,12 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    getTodos: async (parent, args) =>
-      await Todo.find({ owner: args.ownerId }).exec(),
+    getTodos: async (parent, args) => {
+      const todos = await Todo.find({
+        owner: args.ownerId,
+      }).exec();
+      return todos;
+    },
   },
   Mutation: {
     addTodo: async (parent, args) => {

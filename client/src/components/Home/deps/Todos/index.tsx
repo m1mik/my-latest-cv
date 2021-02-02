@@ -9,8 +9,9 @@ import {
   ListItemSecondaryAction,
   Checkbox,
 } from "@material-ui/core";
-import { GET_TODOS } from "../../../../services/apollo/todo";
-import { useLazyQuery } from "@apollo/client";
+import { saveFetchedTodos } from "../../../../store/actions/todo";
+import { GET_TODOS, TOGGLE_TODO } from "../../../../services/apollo/todo";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
@@ -18,25 +19,34 @@ const useStyles = makeStyles(styles);
 const Todos = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [getTodos, { loading, data }] = useLazyQuery(GET_TODOS);
+  const [getTodos, { loading: todosAreloading, data: todos }] = useLazyQuery(
+    GET_TODOS
+  );
+  const [runToggleTodoMutation, { data: toggledTodo }] = useMutation(
+    TOGGLE_TODO
+  );
   const user = useSelector((state: any) => state.user);
-  //   const todos = useSelector((state: any) => state.todo.todos);
-  const todos: any = [
-    {
-      id: 1,
-      title: "hello",
-      isDone: true,
-    },
-    {
-      id: 2,
-      title: "world",
-      isDone: false,
-    },
-  ];
+  const storedTodos = useSelector((state: any) => state.todo.todos);
+
+  const toggleTodo = (todoId: string) => (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    runToggleTodoMutation({
+      variables: {
+        id: todoId,
+      },
+    });
+  };
 
   useEffect(() => {
     getTodos({ variables: { ownerId: user.id } });
   }, [user]);
+
+  useEffect(() => {
+    if (!storedTodos.length && todos && todos.getTodos.length)
+      dispatch(saveFetchedTodos(todos.getTodos));
+  }, [storedTodos, dispatch]);
 
   return (
     <div>
@@ -46,20 +56,19 @@ const Todos = () => {
         dense
       >
         {todos &&
-          todos.map((todo: any) => (
+          todos.getTodos.map((todo: any) => (
             <ListItem key={todo.id}>
               <ListItemText primary={`${todo.title}`} />
               <ListItemSecondaryAction>
                 <Checkbox
                   edge="end"
-                  // onChange={toggleTodo}
+                  onChange={toggleTodo(todo.id)}
                   checked={todo.isDone}
                 />
               </ListItemSecondaryAction>
             </ListItem>
           ))}
       </List>
-      {/* {data && console.log(data.getTodos)} */}
     </div>
   );
 };
