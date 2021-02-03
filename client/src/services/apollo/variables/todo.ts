@@ -1,13 +1,25 @@
 import { gql, makeVar } from "@apollo/client";
-import { Todo } from "@store/types";
+import { Todo, TodoListStates } from "@store/types";
 export const todosVar = makeVar<Todo[]>([
   {
     id: "6018fbec288eb19db1e744e3",
     title: "launch apollo",
     owner: "601405f529d03b2674ac1a51",
     isDone: false,
+    created_at: new Date().toDateString(),
   },
 ]);
+
+export const dropListController = {
+  current: false,
+  finished: false,
+  all: false,
+};
+export const todoListControllerVar = makeVar<TodoListStates>({
+  current: false,
+  finished: false,
+  all: true,
+});
 
 export const GET_LOCAL_TODOS = gql`
   query GetTestTodos {

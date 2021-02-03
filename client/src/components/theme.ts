@@ -28,6 +28,9 @@ const theme = {
     link: {
       textDecoration: "none",
     },
+    lowerBoxShadow: {
+      boxShadow: "0 2px 3px rgba(0,0,0,0.5)",
+    },
   },
 };
 
@@ -39,7 +42,9 @@ export const drawTheme = createMuiTheme({
       dark: "#115293",
     },
     secondary: {
+      light: "#fff3e0",
       main: "#ffd180",
+      dark: "#e65100",
     },
   },
 });

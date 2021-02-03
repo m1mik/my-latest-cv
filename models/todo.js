@@ -10,6 +10,11 @@ const TodoSchema = new mongoose.Schema({
     required: true,
     default: new Date().toISOString(),
   },
+  done_at: {
+    type: String,
+    required: false,
+    default: "",
+  },
 });
 
 module.exports = mongoose.model("todo", TodoSchema);

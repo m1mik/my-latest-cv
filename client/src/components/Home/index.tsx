@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import CV from "./deps/CV";
-import Todos from "./deps/Todos";
+import Todos from "./deps/TodoList";
 import axios from "../../services/axiosClient";
 import TabPanel from "./deps/TabPanel";
 import styles from "./styles";

@@ -6,7 +6,7 @@ import Home from "./components/Home";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import "./App.css";
-import { drawTheme } from "./theme";
+import { drawTheme } from "./components/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { CookiesProvider } from "react-cookie";
 

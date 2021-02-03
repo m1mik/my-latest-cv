@@ -1,8 +1,8 @@
 import React from "react";
-import { updaloadAvatar } from "../../../../../../services/user";
+import { updaloadAvatar } from "@services/user";
 
 const UploadImage: React.FC<{}> = () => {
-  const [percentageProgress, setPercentageProgress] = React.useState(0);
+  const [, setPercentageProgress] = React.useState(0);
   return (
     <div>
       <label htmlFor="uploading-photo">Please set your photo</label>

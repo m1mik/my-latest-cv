@@ -9,6 +9,7 @@ const typeDefs = `
     isDone: Boolean
     description: String
     created_at: String!
+    done_at: String
   }
   type Query {
     getTodos(ownerId: ID!): [Todo]
@@ -39,6 +40,7 @@ const resolvers = {
     toggleTodo: async (parent, args) => {
       const todo = await Todo.findById(args.id).exec();
       todo.isDone = !todo.isDone;
+      if (todo.isDone) todo.done_at = new Date().toISOString();
       await todo.save();
       return todo;
     },

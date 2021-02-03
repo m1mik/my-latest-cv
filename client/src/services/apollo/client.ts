@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { todosVar } from "./variables/todo";
+import { todosVar, todoListControllerVar } from "./variables/todo";
 
 export const cache = new InMemoryCache({
   typePolicies: {
@@ -8,6 +8,11 @@ export const cache = new InMemoryCache({
         todos: {
           read() {
             return todosVar();
+          },
+        },
+        todoListController: {
+          read() {
+            return todoListControllerVar();
           },
         },
       },
