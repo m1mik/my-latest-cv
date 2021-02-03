@@ -48,7 +48,7 @@ const Todos = () => {
   }, [user]);
 
   useEffect(() => {
-    if (remoteTodos && !testTodos().length) testTodos(remoteTodos.getTodos);
+    if (remoteTodos && !testTodos.length) todosVar(remoteTodos.getTodos);
   }, [remoteTodos]);
 
   return (
