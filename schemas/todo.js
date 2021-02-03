@@ -1,10 +1,11 @@
-const Todo = require("../models");
+const mongoose = require("mongoose");
+const Todo = require("../models/todo");
 
 const typeDefs = `
   type Todo {
     id: ID!
     title: String!
-    owner: ID!
+    owner: String!
     isDone: Boolean
     description: String
     created_at: String!
@@ -24,7 +25,7 @@ const resolvers = {
   Query: {
     getTodos: async (parent, args) => {
       const todos = await Todo.find({
-        owner: args.ownerId,
+        owner: mongoose.Types.ObjectId(args.ownerId),
       }).exec();
       return todos;
     },

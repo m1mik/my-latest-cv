@@ -1,4 +1,4 @@
-import { User } from "../types/user";
+import { User } from "../types";
 import { Dispatch } from "redux";
 import { FIND_OUT_WHO_AM_I, NULLIFY_USER } from "./actionTypes";
 
