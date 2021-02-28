@@ -1,77 +1,17 @@
-const { gql } = require("apollo-server-express");
 const Movie = require("../models/movies").Movies;
+const { composeWithMongoose } = require("graphql-compose-mongoose");
+const customizationOptions = {};
 
-// const typeDefs = gql`
-const typeDefs = `
-  type Movie {
-    id: ID!
-    name: String!
-    producer: String!
-    rating: Float!
-  }
-  type Query {
-    getMovies: [Movie]
-    getMovie(id: ID!): Movie
-    health: String
-  }
-  type Mutation {
-    addMovie(name: String!, producer: String!, rating: Float!): Movie
-    updateMovie(id: ID!, name: String!, producer: String!, rating: Float): Movie
-    deleteMovie(id: ID!): Movie
-  }
-`;
+const MovieTc = composeWithMongoose(Movie, customizationOptions);
+const movieQuery = {
+  movieById: MovieTc.getResolver("findById"),
+};
 
-const resolvers = {
-  Query: {
-    getMovies: (parent, args) => {
-      return Movie.find({});
-    },
-    getMovie: (parent, args) => {
-      return Movie.findById(args.id);
-    },
-    health: () => {
-      return "i'm alive";
-    },
-  },
-  Mutation: {
-    addMovie: async (parent, args) => {
-      let movie = new Movie({
-        name: args.name,
-        producer: args.producer,
-        rating: args.rating,
-      });
-      return await movie.save();
-    },
-    updateMovie: (parent, args) => {
-      if (!args.id) return;
-      return Movie.findOneAndUpdate(
-        {
-          _id: args.id,
-        },
-        {
-          $set: {
-            name: args.name,
-            producer: args.producer,
-            rating: args.rating,
-          },
-        },
-        { new: true },
-        (err, Movie) => {
-          if (err) {
-            console.log("Something went wrong when updating the movie");
-          } else {
-          }
-        }
-      );
-    },
-    deleteMovie: (parent, args) => {
-      if (!args.id) return;
-      return Movie.findById(args.id).deleteOne();
-    },
-  },
+const movieMutation = {
+  movieCreateOne: MovieTc.getResolver("createOne"),
 };
 
 module.exports = {
-  typeDefs,
-  resolvers,
+  movieQuery,
+  movieMutation,
 };

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { makeStyles, Button } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { List, ListSubheader } from "@material-ui/core";
 import TodoItem from "../TodoItem";
 import { Todo } from "@store/types";
+import TodoModalBody from "../TodoModalBody/";
 import {
   GET_TODOS,
   GET_LOCAL_TODOS,
@@ -12,8 +13,14 @@ import {
   dropListController,
 } from "@services/apollo/variables/todo";
 import Modal from "@comps/generalDeps/Modal";
+import { ADD_TODO } from "@services/apollo/variables/todo";
 import clsx from "clsx";
-import { useLazyQuery, useQuery, useReactiveVar } from "@apollo/client";
+import {
+  useLazyQuery,
+  useQuery,
+  useReactiveVar,
+  useMutation,
+} from "@apollo/client";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
@@ -26,6 +33,7 @@ const Todos = () => {
     getTodos,
     { loading: todosAreloading, data: remoteTodos },
   ] = useLazyQuery(GET_TODOS);
+  const [runAddTodoMutation, { data: toggledTodo }] = useMutation(ADD_TODO);
   const [isAddTodoModalOpen, setAddTodoModalState] = useState<boolean>(false);
   const user = useSelector((state: any) => state.user);
 
@@ -37,6 +45,15 @@ const Todos = () => {
 
   const showAll = () =>
     todoListControllerVar({ ...dropListController, all: true });
+
+  const addTodo = useCallback((title: string, description: string = "") => {
+    runAddTodoMutation({
+      variables: {
+        title,
+        description,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     if (user && !remoteTodos) getTodos({ variables: { ownerId: user.id } });
@@ -86,7 +103,9 @@ const Todos = () => {
               <Modal
                 open={isAddTodoModalOpen}
                 onClose={() => setAddTodoModalState(false)}
-              />
+              >
+                <TodoModalBody addTodo={addTodo} />
+              </Modal>
             </div>
           </ListSubheader>
         }

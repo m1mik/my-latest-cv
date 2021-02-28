@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const TodoSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  description: { type: String, required: false },
+  description: { type: String, required: false, default: "" },
+  links: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "link", required: false },
+  ],
   isDone: { type: Boolean, required: true, default: false },
   owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "user" },
   created_at: {

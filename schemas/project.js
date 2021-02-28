@@ -1,56 +1,17 @@
 const Project = require("../models/project");
+const { composeWithMongoose } = require("graphql-compose-mongoose");
+const customizationOptions = {};
 
-// const typeDefs = gql`
-const typeDefs = `
-  type Project {
-    id: ID!
-    name: String!
-    duration: String!
-    description: String!
-    stack: [String]!
-    responsibilities: [String]!
-  }
-  type Query {
-    getProjects: [Project]
-  }
-  type Mutation {
-    addProject(
-      name: String!
-      duration: String!
-      description: String!
-      stack: [String]!
-      responsibilities: [String]!
-    ): Project
-    deleteProject(id: ID!): Project
-  }
-`;
+const ProjectTC = composeWithMongoose(Project, customizationOptions);
+const projectQuery = {
+  projectById: ProjectTC.getResolver("findById"),
+};
 
-const resolvers = {
-  Query: {
-    getProjects: async (parent, args) => {
-      return await Project.find({});
-    },
-  },
-  Mutation: {
-    addProject: async (parent, args) => {
-      const { name, duration, description, stack, responsibilities } = args;
-      const project = new Project({
-        name,
-        duration,
-        description,
-        stack,
-        responsibilities,
-      });
-      return await project.save();
-    },
-    deleteProject: async (parent, args) => {
-      if (!args.id) return;
-      return await (await Project.findById(id)).deleteOne();
-    },
-  },
+const projectMutation = {
+  projectCreateOne: ProjectTC.getResolver("createOne"),
 };
 
 module.exports = {
-  typeDefs,
-  resolvers,
+  projectQuery,
+  projectMutation,
 };

@@ -87,7 +87,6 @@ const login = async (req, res) => {
       (err, token) => (token ? resolve(token) : reject(err))
     );
   });
-
   return res
     .cookie("jwt", userToken, {
       expires: new Date(Date.now() + 60 * 60 * 24 * 365),

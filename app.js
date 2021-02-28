@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const combinedTypes = require("./schemas/gqlTypes");
-const combinedResolvers = require("./schemas/gqlResolvers");
+const graphqlSchema = require("./schemas");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -27,8 +26,7 @@ connect.then(
 );
 
 const server = new ApolloServer({
-  typeDefs: combinedTypes,
-  resolvers: combinedResolvers,
+  schema: graphqlSchema,
 });
 
 const app = express();

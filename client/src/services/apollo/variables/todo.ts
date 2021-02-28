@@ -57,3 +57,13 @@ export const TOGGLE_TODO = gql`
     }
   }
 `;
+
+export const ADD_TODO = gql`
+  mutation AddTodo($owner: ID!, $title: String!, $description: String) {
+    addTodo(owner: $owner, title: $title, description: $description) {
+      title
+      owner
+      title
+    }
+  }
+`;

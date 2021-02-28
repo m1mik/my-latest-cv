@@ -18,6 +18,9 @@ const styles = (draw: Theme) =>
     activeCategoryBtn: {
       backgroundColor: draw.palette.primary.light,
       color: "white",
+      "&:hover": {
+        backgroundColor: "rgba(25, 118, 210, 0.5)",
+      },
     },
   });
 
